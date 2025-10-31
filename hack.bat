@@ -16,41 +16,43 @@ if "%key%" NEQ "1234" (
     exit
 )
 
-:loop
+cls
+echo Dang bat dau vong lap tim kiem va tat app... (Nhan Ctrl+C de dung)
+echo.
+
 setlocal enabledelayedexpansion
 
-echo Searching for the applications pcicfgui.exe and client32.exe...
+:loop
+echo Dang tim kiem...
 
 :: Check for pcicfgui.exe
 tasklist | findstr /i "pcicfgui.exe" >nul
 if %errorlevel%==0 (
-    echo Terminating pcicfgui.exe...
-    taskkill /f /im pcicfgui.exe
+    echo Phat hien pcicfgui.exe. Dang tat...
+    taskkill /f /im pcicfgui.exe >nul
     if %errorlevel% neq 0 (
-        echo ERROR: The process "pcicfgui.exe" could not be terminated. Reason: Access is denied.
+        echo LOI: Khong a thae tat "pcicfgui.exe". Ly do: Access is denied.
+    ) else (
+        echo Da tat pcicfgui.exe thanh cong.
     )
-) else (
-    echo pcicfgui.exe not found.
 )
 
 :: Check for client32.exe
 tasklist | findstr /i "client32.exe" >nul
 if %errorlevel%==0 (
-    echo Terminating client32.exe...
-    taskkill /f /im client32.exe
+    echo Phat hien client32.exe. Dang tat...
+    taskkill /f /im client32.exe >nul
     if %errorlevel% neq 0 (
-        echo ERROR: The process "client32.exe" could not be terminated. Reason: Access is denied.
+        echo LOI: Khong a thae tat "client32.exe". Ly do: Access is denied.
+    ) else (
+        echo Da tat client32.exe thanh cong.
     )
-) else (
-    echo client32.exe not found.
 )
 
-:: Delay for 3 seconds
-echo Searching for the applications... Please wait.
-timeout /t 3 >nul
+:: Delay for 1 second
+:: Dat lenh nay o cuoi cung truoc khi quay lai :loop
+timeout /t 1 >nul
 
-echo.
-echo Success! All specified processes have been checked and terminated if found.
-pause
-endlocal
 goto loop
+
+endlocal
